@@ -63,7 +63,7 @@ function generatePlayerCard(name, age, height) {
   const imperial = height / 2.54;
   const heightFeet = Math.floor(imperial / 12);
   const heightInches = Math.round(Math.abs((imperial / 12) % 1) * 12).toFixed(
-    1
+    0
   );
   return `
     <div class="playerCard">
