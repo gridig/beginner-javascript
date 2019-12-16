@@ -2,7 +2,7 @@ const wes = document.querySelector('.wes');
 const signupForm = document.querySelector('[name="signup"]');
 
 wes.addEventListener('click', function(event) {
-  const shouldChangePage = confirm(
+  const shouldChangePage = window.confirm(
     'this website might be malicious, do you wish to procede?'
   );
   if (!shouldChangePage) {
