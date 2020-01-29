@@ -12,8 +12,146 @@
   <script>
     // Grab all the text from a web page
     // Count how many times each letter and number occurs
+    const text = `
+Skip to content
+Next.js
+Features
+Learn
+Docs
+Showcase
+Blog
+Next 9.2 is out! — CSS Support, Improved Code-Splitting, Catch-All Routing, and more!Learn More →
+License: MIT
 
+import Link from 'next/link';
 
+export default function Index() {
+  return (
+    <div>
+      <h1>Hello Next.js 👋</h1>
+      <Link href="/about">
+        <a>About</a>
+      </Link>
+    </div>
+  );
+}
+
+http://localhost:3000
+Hello Next.js 👋
+About
+
+Next.js will serve each file in /pages under a pathname matching the filename.
+
+For example, /pages/about.js is served at site.com/about.
+Why Next.js
+The world’s leading companies use and love Next.js
+
+With Next.js, server rendering React applications has never been easier, no matter where your data is coming from.
+
+No need to learn a new framework. Exporting a static site with Next.js is as easy as a single command.
+
+Next.js comes with styled-jsx included, but it also works with every CSS-in-JS solution you know and love.
+Zero Setup
+
+Automatic code splitting, filesystem based routing, hot code reloading and universal rendering.
+Fully Extensible
+
+Complete control over Babel and Webpack. Customizable server, routing and next-plugins.
+Ready for Production
+
+Optimized for a smaller build size, faster dev compilation and dozens of other improvements.
+Who’s Using Next.js
+We’re honored some of the most talented creatives out there build with Next.js
+Tencent News
+Tencent News
+Netflix Jobs
+Netflix Jobs
+Twitch
+Twitch
+Hulu
+Hulu
+realtor.com
+realtor.com
+Nike
+Nike
+AT&T
+AT&T
+Learn Next.js
+Tutorials, examples and quizzes. Learn Next.js step-by-step and earn points ✨.
+Next.js is getting better every day — don’t miss out on all the action.
+Join the Next.js newsletter and stay updated on new releases and features, guides, and case studies.
+General resources
+
+Docs
+
+Learn
+
+Showcase
+
+Blog
+Features
+
+SSR
+
+Static Exporting
+
+CSS-in-JS
+
+PWA
+More
+
+GitHub
+
+Releases
+
+Spectrum
+
+Telemetry
+About ZEIT
+
+Open Source Software
+
+GitHub
+
+Twitter
+Copyright © 2020 ZEIT, Inc. All rights reserved.
+`;
+
+    function isValidChar(char) {
+      return char.match(/[a-z0-9]/i);
+    }
+
+    // function lowercase(char) {
+    //   return char.toLowerCase();
+    // }
+
+    const lowercase = char => char.toLowerCase();
+
+    function instanceCounter(counts, char) {
+      counts[char] ? (counts[char] = counts[char] + 1) : (counts[char] = 1);
+      return counts;
+    }
+
+    const result = text
+      .split('') // split chars into array
+      .filter(isValidChar)
+      .map(lowercase) // every letter to lowercase
+      .reduce(instanceCounter, {});
+
+    // Wes's function for sorting an array by numeric value
+
+    function sortByValueWes(a, b) {
+      return a[1] - b[1];
+    }
+
+    const sortedResult = Object.entries(result).sort(sortByValueWes);
+    console.log(sortedResult);
+
+    // My higher order arrow function for sorting an array by numeric value
+
+    const sortByValue = obj => Object.entries(obj).sort((a, b) => a[1] - b[1]);
+
+    console.log(sortByValue(result));
   </script>
 </body>
 
