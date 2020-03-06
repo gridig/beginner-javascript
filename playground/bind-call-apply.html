@@ -16,55 +16,49 @@
   </div>
   <script>
     const person = {
-      name: 'Wes Bos',
+      name: 'Iggy Drop',
       sayHi() {
-        console.log(this);
-        console.log(`hey ${this.name}`);
-        return `hey ${this.name}`;
-      }
+        return `Hey ${this.name}`;
+      },
     };
 
     const jenna = { name: 'Jenna' };
 
     const sayHi = person.sayHi.bind({ name: 'Harry' });
 
-    // QS Example
-    // by calling bind against querySelector, we say when the $ function is run, use `document` as the `this` value.
+    // Query Selector example
     const $ = document.querySelector.bind(document);
     const lookFor = document.querySelectorAll.bind(document);
 
-    const wrapper = document.querySelector('.wrapper');
-    const p = wrapper.querySelector('p');
-    console.log(p);
     console.log($('p'));
     console.log(lookFor('p'));
 
     const bill = {
-      total: 1000,
-      calculate: function (taxRate) {
-        console.log(this);
-        return this.total + (this.total * taxRate);
+      totalNoTax: 1000,
+      calculate(taxRate) {
+        return this.totalNoTax + this.totalNoTax * taxRate;
       },
       describe(mealType, drinkType, taxRate) {
-        console.log(`Your meal of ${mealType} with a drink of ${drinkType} was ${this.calculate(taxRate)}`);
-      }
+        return `Your meal of ${mealType} with a drink of ${drinkType} was ${this.calculate(
+          taxRate
+        )}`;
+      },
     };
 
     const total = bill.calculate(0.13);
-    const calc = bill.calculate.bind({ total: 500 }, 0.06);
+    console.log(total);
 
+    const calc = bill.calculate.bind({ totalNoTax: 500 }, 0.06);
     console.log(calc());
-    const total2 = bill.calculate.call({ total: 500 }, 0.06);
+
+    const total2 = bill.calculate.call({ totalNoTax: 480 }, 0.12);
     console.log(total2);
 
-    const total3 = bill.calculate.apply({ total: 325 }, [0.60]);
+    const total3 = bill.calculate.apply({ totalNoTax: 325 }, [0.09]);
     console.log(total3);
 
-    const myMeal = bill.describe.call(bill, 'pizza', 'beer', 0.13);
+    const myMeal = bill.describe.apply(bill, ['pizza', 'beer', 0.17]);
     console.log(myMeal);
-    const myMeal2 = bill.describe.apply(bill, ['pizza', 'beer', 0.13]);
-    console.log(myMeal2);
-
   </script>
 </body>
 
