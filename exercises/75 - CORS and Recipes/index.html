@@ -31,14 +31,24 @@
 
 <body>
   <div class="wrapper">
-    <form class="search" autocomplete="off">
-      <input type="text" name="query" value="pizza">
-      <button name="submit" type="submit">Submit</button>
-    </form>
+    <div>
+      <p>Search by meal:</p>
+      <form class="search" id="meal" autocomplete="off">
+        <input type="text" name="query" value="pizza">
+        <button name="submit" type="submit">Submit</button>
+      </form>
+    </div>
+    <div>
+      <p>Or by ingredients (separate by comma):</p>
+      <form class="search" id="ingredient" autocomplete="off">
+        <input type="text" name="query" value="honey, butter">
+        <button name="submit" type="submit">Submit</button>
+      </form>
+    </div>
     <div class="recipes"></div>
   </div>
 
-  <script src="./scripts.js"></script>
+  <script src="./script.js"></script>
 </body>
 
 </html>

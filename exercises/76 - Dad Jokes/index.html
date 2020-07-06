@@ -13,6 +13,13 @@
 
     .wrapper {
       text-align: center;
+      margin: 4rem;
+      padding: 2rem;
+      background: white;
+      bottom: 30%;
+      position: fixed;
+      width: Calc(100% - 8rem);
+      max-width: none;
     }
 
     .joke {
@@ -69,12 +76,12 @@
     <div class="joke">
       <p>Dad Jokes.</p>
     </div>
-    <button class="getJoke">
-      <span class="jokeText">Get A Joke</span>
+    <button class="get-joke">
       <div class="lds-ripple loader hidden">
         <div></div>
         <div></div>
       </div>
+      <span class="joke-text">Get A Joke</span>
     </button>
   </div>
 
