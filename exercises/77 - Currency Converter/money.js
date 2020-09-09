@@ -63,6 +63,7 @@ async function convert(amount, from, to) {
   }
   const rate = ratesByBase[from].rates[to];
   let convertedAmount = rate * amount;
+  // fix for €NaN error when converting euro to euro
   if (from === to) {
     convertedAmount = fromInput.value;
   }
