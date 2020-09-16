@@ -33,6 +33,4 @@ const currencies = {
   EUR: 'Euro',
 };
 
-export const localCurrency = 'EUR';
-
 export default currencies;

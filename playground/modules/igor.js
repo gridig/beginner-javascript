@@ -1,12 +1,12 @@
 const person = {
-  name: 'Wes',
-  last: 'Bos',
+  name: 'Igor',
+  last: 'Abdulović',
 };
 
 export default person;
 
-export const dog = 'Snickers';
+export const dog = 'Boni';
 export const food = 'pizza';
 export function eat() {
-  console.log('chomp chomp');
+  console.log('njam njam');
 }
