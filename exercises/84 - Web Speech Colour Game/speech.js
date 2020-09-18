@@ -9,7 +9,7 @@ function displayColors(colors) {
       color =>
         `<span class="color ${color} ${
           isDark(color) ? 'dark' : ''
-        }" style="background: ${color};">${color}</span>`
+        }" style="background: ${color}">${color}</span>`
     )
     .join('');
 }
@@ -18,14 +18,11 @@ window.SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
 function start() {
-  // see if their browser supports this
   if (!('SpeechRecognition' in window)) {
-    console.log('Sorry your browser does not support speech reco. ');
+    console.log('browser does not support speech recognition');
     return;
   }
-  // it does work
-  console.log('Starting...');
-  // make a new speech reco
+  console.log('starting');
   const recognition = new SpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;

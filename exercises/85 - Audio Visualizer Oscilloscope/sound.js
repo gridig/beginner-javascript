@@ -1,7 +1,7 @@
-import { hslToRgb } from './utils.js'
+import { hslToRgb } from './utils.js';
 
-const WIDTH = 1200;
-const HEIGHT = 1200;
+const WIDTH = 1500;
+const HEIGHT = 1500;
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = WIDTH;
@@ -13,8 +13,48 @@ function handleError(err) {
   console.log('release the mic');
 }
 
+function drawTimeData(timeData) {
+  analyzer.getByteTimeDomainData(timeData);
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = 'rebeccapurple';
+  ctx.beginPath();
+  const sliceWidth = WIDTH / bufferLength;
+  let x = 0;
+  timeData.forEach((data, i) => {
+    const v = data / 256;
+    const y = (v * HEIGHT) / 2;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+    x += sliceWidth;
+  });
+  ctx.stroke();
+  requestAnimationFrame(() => drawTimeData(timeData));
+}
+
+function drawFrequency(frequencyData) {
+  analyzer.getByteFrequencyData(frequencyData);
+  const barWidth = WIDTH / bufferLength;
+  let x = 0;
+  frequencyData.forEach(amount => {
+    const percent = amount / 255;
+    const [h, s, l] = [percent - 0.5, 1, 0.5];
+    const barHeight = (HEIGHT * percent) / 2;
+    const [r, g, b] = hslToRgb(h, s, l);
+    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+    ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+    x = x + barWidth + 5;
+  });
+  requestAnimationFrame(() => drawFrequency(frequencyData));
+}
+
 async function getAudio() {
-  const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  const stream = await navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .catch(handleError);
   const audioCtx = new AudioContext();
   analyzer = audioCtx.createAnalyser();
   const source = audioCtx.createMediaStreamSource(stream);
@@ -26,48 +66,5 @@ async function getAudio() {
   drawTimeData(timeData);
   drawFrequency(frequencyData);
 }
-
-function drawTimeData(timeData) {
-  analyzer.getByteTimeDomainData(timeData);
-  ctx.clearRect(0,0,WIDTH,HEIGHT)
-  ctx.lineWidth = 10;
-  ctx.strokeStyle = '#fe8300';
-  ctx.beginPath();
-  const sliceWidth = WIDTH / bufferLength;
-  let x = 0;
-  timeData.forEach((data, i) => {
-    const v = data / 128;
-    const y = (v * HEIGHT) / 2;
-    if(i === 0) {
-      ctx.moveTo(x, y)
-    } else {
-      ctx.lineTo(x, y)
-    }
-    x += sliceWidth;
-  });
-  ctx.stroke();
-  requestAnimationFrame(() => drawTimeData(timeData));
-}
-
-function drawFrequency(frequencyData) {
-  analyzer.getByteFrequencyData(frequencyData);
-  const barWidth = (WIDTH / bufferLength) * 2.5;
-  let x = 0;
-  frequencyData.forEach(amount => {
-    const percent = amount / 255;
-    const [h, s, l] = [ percent - 0.5, 1, 0.5]
-    const barHeight = (HEIGHT * percent) / 2;
-    const [r, g, b] = hslToRgb(h, s, l)
-    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-    ctx.fillRect(
-      x,
-      HEIGHT - barHeight,
-      barWidth,
-      barHeight);
-      x = x + barWidth + 5;
-  })
-  requestAnimationFrame(() => drawFrequency(frequencyData));
-}
-
 
 getAudio();
