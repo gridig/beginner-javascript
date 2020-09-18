@@ -17,7 +17,9 @@ function drawTimeData(timeData) {
   analyzer.getByteTimeDomainData(timeData);
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.lineWidth = 4;
-  ctx.strokeStyle = 'rebeccapurple';
+  const [h, s, l] = [timeData[0] / 128, 1, 0.5];
+  const [r, g, b] = hslToRgb(h, s, l);
+  ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
   ctx.beginPath();
   const sliceWidth = WIDTH / bufferLength;
   let x = 0;
@@ -40,13 +42,13 @@ function drawFrequency(frequencyData) {
   const barWidth = WIDTH / bufferLength;
   let x = 0;
   frequencyData.forEach(amount => {
-    const percent = amount / 255;
+    const percent = amount / 256;
     const [h, s, l] = [percent - 0.5, 1, 0.5];
     const barHeight = (HEIGHT * percent) / 2;
     const [r, g, b] = hslToRgb(h, s, l);
     ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
     ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-    x = x + barWidth + 5;
+    x = x + barWidth + 4;
   });
   requestAnimationFrame(() => drawFrequency(frequencyData));
 }
